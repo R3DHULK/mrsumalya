@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://sumalya-portfolio.vercel.app",
+    url: "https://mrsumalya.netlify.app",
     title: "Sumalya Chatterjee - India's #1 Next.js & React.js Developer",
     description: "Professional web developer specializing in Next.js, React.js, and SEO optimization.",
     siteName: "Sumalya Portfolio",
@@ -28,7 +28,10 @@ export const metadata: Metadata = {
     title: "Sumalya Chatterjee - India's #1 Next.js & React.js Developer",
     description: "Professional web developer specializing in Next.js, React.js, and SEO optimization.",
   },
-    generator: 'v0.dev'
+    generator: 'Sumalya Chatterjee',
+  icons: {
+    icon: "/favicon.ico",
+  }
 }
 
 export default function RootLayout({
@@ -39,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="canonical" href="https://sumalya-portfolio.vercel.app" />
+        <link rel="canonical" href="https://mrsumalya.netlify.app" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#1e40af" />
       </head>

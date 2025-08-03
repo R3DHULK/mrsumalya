@@ -1060,7 +1060,7 @@ export default function Portfolio() {
 
           {/* Software */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-8 text-center">Software</h3>
+            <h3 className="text-2xl font-bold mb-8 text-center">Softwares</h3>
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               {software.map((soft, index) => (
                 <motion.div
@@ -1093,7 +1093,7 @@ export default function Portfolio() {
             </div>
 
             <div className="text-center">
-              <p className="text-lg text-blue-400 font-semibold mb-4">Follow my work on GitHub</p>
+              <p className="text-lg text-blue-400 font-semibold mb-4">There're more on GitHub</p>
               <Button
                 onClick={() => window.open("https://github.com/r3dhulk", "_blank")}
                 className="bg-gray-500/20 hover:bg-gray-500/30 border border-gray-500/30"
@@ -1451,6 +1451,7 @@ export default function Portfolio() {
             <Card className="bg-white/10 backdrop-blur-sm border-white/20">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold mb-6 text-center text-white">Write a Review</h3>
+                <p className="text-xl font-bold mb-6 text-center text-white">Get Featured In My Website</p>
                 <div className="space-y-4">
                   <Input
                     placeholder="Your Name"

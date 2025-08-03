@@ -1561,9 +1561,6 @@ export default function Portfolio() {
             {/* Brand Section */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">S</span>
-                </div>
                 <h3 className="text-xl font-bold text-white">Sumalya Chatterjee</h3>
               </div>
               <p className="text-gray-300 text-sm leading-relaxed">

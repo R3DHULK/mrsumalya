@@ -6,6 +6,7 @@ import {
   Menu,
   X,
   ChevronUp,
+  ChevronDown,
   MessageCircle,
   Play,
   ExternalLink,
@@ -18,7 +19,6 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 
@@ -224,9 +224,9 @@ const HackerTerminal = () => {
     { name: "JavaScript (ES6+)", icon: "⚡", level: "Expert" },
     { name: "Python", icon: "🐍", level: "Advanced" },
     { name: "R Programming", icon: "📊", level: "Intermediate" },
-    { name: "C Programming", icon: "⚙️", level: "Intermediate" },
+    { name: "C Programming", icon: "⚙️", level: "Advanced" },
     { name: "Bash Scripting", icon: "💻", level: "Advanced" },
-    { name: "Batch Scripting", icon: "🖥️", level: "Advanced" },
+    { name: "Batch Scripting", icon: "🖥️", level: "Intermediate" },
     { name: "Next.js", icon: "⚛️", level: "Expert" },
     { name: "React.js", icon: "⚛️", level: "Expert" },
     { name: "Node.js Backend", icon: "🟢", level: "Advanced" },
@@ -270,7 +270,7 @@ const HackerTerminal = () => {
             <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
             <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
           </div>
-          <span className="text-green-400 font-bold">SUMALYA_TERMINAL_LITEv2.0</span>
+          <span className="text-green-400 font-bold">SUMALYA_TERMINAL_v2.0</span>
         </div>
         <div className="text-green-400 text-xs">{new Date().toLocaleTimeString()}</div>
       </div>
@@ -305,10 +305,10 @@ const HackerTerminal = () => {
                 <div className="text-white text-xs font-semibold">{tech.name}</div>
                 <div
                   className={`text-xs ${tech.level === "Expert"
-                      ? "text-green-400"
-                      : tech.level === "Advanced"
-                        ? "text-blue-400"
-                        : "text-yellow-400"
+                    ? "text-green-400"
+                    : tech.level === "Advanced"
+                      ? "text-blue-400"
+                      : "text-yellow-400"
                     }`}
                 >
                   {tech.level}
@@ -513,7 +513,6 @@ export default function Portfolio() {
     { name: "Cookie editor", emoji: "✏️" },
     { name: "Tab Grouper", emoji: "📁" },
     { name: "Rename Tabs", emoji: "🏷️" },
-    { name: "Smart Night Mode", emoji: "🌃" },
     { name: "Privacy permission dashboard", emoji: "🔒" },
   ]
 
@@ -617,32 +616,78 @@ export default function Portfolio() {
 
       {/* Hero Section */}
       <section id="home" className="pt-20 min-h-screen flex items-center">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Sumalya Chatterjee
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-300">India's #1 Next.js & React.js Frontend Developer</p>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                <AnimatedCounter end={200000} suffix="+ Gameplays" />
-              </Badge>
-              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                <AnimatedCounter end={4000} suffix="+ Daily Extension Users" />
-              </Badge>
-            </div>
-            <div className="max-w-4xl mx-auto mb-8">
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
-                🚀 Completed 20+ Next.js & React.js projects | 💻 Built 100+ websites & web games in vanilla JavaScript
-                with HTML | ⭐ Over 4+ years of expertise | 🎯 Eager to complete more projects in the future
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-5xl mx-auto"
+          >
+            {/* Main Hero Card */}
+            <div className="bg-gradient-to-br from-blue-900/40 via-purple-900/40 to-blue-900/40 backdrop-blur-sm border border-white/10 rounded-3xl p-12 text-center">
+              {/* Main Title */}
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
+                Sumalya Chatterjee
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-xl md:text-2xl mb-8 text-gray-300 font-medium">
+                India's #1 NextJS & ReactJS Frontend Developer
               </p>
+
+              {/* Description */}
+              <div className="max-w-4xl mx-auto mb-12">
+                <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
+                  Specialized in creating production-ready websites with on-page SEO optimization, security-focused
+                  development, and seamless API integrations. From client sketches to fully functional web applications.
+                </p>
+              </div>
+
+              {/* Statistics Cards */}
+              <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-3xl mx-auto">
+                {/* Games Stats */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+                  <div className="text-4xl md:text-5xl font-bold text-green-400 mb-2">
+                    <AnimatedCounter end={200000} suffix="+" />
+                  </div>
+                  <p className="text-gray-300 text-lg">Game Plays on Y8, Poki & GamePix</p>
+                </div>
+
+                {/* Extensions Stats */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
+                  <div className="text-4xl md:text-5xl font-bold text-blue-400 mb-2">
+                    <AnimatedCounter end={4000} suffix="+" />
+                  </div>
+                  <p className="text-gray-300 text-lg">Daily Firefox Extension Users</p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <Button
+                  onClick={() => window.open("https://wa.me/919330806233", "_blank")}
+                  className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-xl text-lg font-semibold border-0"
+                >
+                  Start Project Discussion
+                </Button>
+                <Button
+                  onClick={() => scrollToSection("projects")}
+                  variant="outline"
+                  className="border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white px-8 py-4 rounded-xl text-lg font-semibold bg-transparent"
+                >
+                  View My Work
+                </Button>
+              </div>
+
+              {/* Scroll Down Arrow */}
+              <motion.div
+                className="flex justify-center"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+              >
+                <ChevronDown className="text-gray-400 w-6 h-6" />
+              </motion.div>
             </div>
-            <Button
-              onClick={() => scrollToSection("contact-me")}
-              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-3 rounded-full text-lg"
-            >
-              Let's Work Together
-            </Button>
           </motion.div>
         </div>
       </section>
@@ -654,39 +699,170 @@ export default function Portfolio() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
+            className="max-w-6xl mx-auto"
           >
             <h2 className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               About Me
             </h2>
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <img
-                  src="/sumalya.jpg"
-                  alt="Sumalya Chatterjee"
-                  className="rounded-2xl shadow-2xl w-full max-w-md mx-auto"
-                />
+
+            <div className="grid lg:grid-cols-3 gap-12 items-start">
+              {/* Profile Image */}
+              <div className="lg:col-span-1">
+                <div className="relative">
+                  <img
+                    src="/sumalya.jpg"
+                    alt="Sumalya Chatterjee"
+                    className="rounded-2xl shadow-2xl w-full max-w-sm mx-auto border-4 border-blue-500/30"
+                  />
+                  <div className="absolute -bottom-4 -right-4 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                    Available 24/7 ⚡
+                  </div>
+                </div>
               </div>
-              <div className="space-y-6">
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  I'm Sumalya, India's leading Next.js and React.js frontend developer with expertise in on-page SEO for
-                  better Google rankings. I specialize in creating secure, responsive websites that can't be easily
-                  hacked, thanks to my web application security knowledge from PortSwigger and Hack the box academy.
-                </p>
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  My web games have garnered over <span className="text-blue-400 font-bold text-xl">3 lakh+</span>{" "}
-                  gameplays on platforms like Y8, Poki, and GamePix. I've also developed useful Firefox browser
-                  extensions with <span className="text-purple-400 font-bold text-xl">4200+</span> daily active users.
-                </p>
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  I can build websites from sketches, Figma designs, or even clone existing websites. I integrate APIs,
-                  work with headless CMS like Sanity, backends like Firebase, and have extensive knowledge in
-                  WooCommerce, ZohoCommerce, and WordPress.
-                </p>
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  My clients always say one word after receiving their website:{" "}
-                  <span className="text-blue-400 font-bold">"Perfect"</span>.
-                </p>
+
+              {/* Main Content */}
+              <div className="lg:col-span-2 space-y-8">
+                {/* Introduction */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
+                  <h3 className="text-2xl font-bold text-white mb-4 flex items-center">
+                    <span className="text-3xl mr-3">👋</span>
+                    Hi, I'm Sumalya!
+                  </h3>
+                  <p className="text-lg text-gray-300 leading-relaxed">
+                    India's leading <span className="text-blue-400 font-bold">Next.js & React.js</span> frontend
+                    developer with expertise in
+                    <span className="text-green-400 font-bold"> on-page SEO</span> and
+                    <span className="text-purple-400 font-bold"> web security</span>.
+                  </p>
+                </div>
+
+                {/* Key Achievements */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 rounded-2xl p-6">
+                    <div className="flex items-center mb-3">
+                      <span className="text-3xl mr-3">🎮</span>
+                      <h4 className="text-xl font-bold text-white">Game Developer</h4>
+                    </div>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="flex items-center">
+                        <span className="text-green-400 mr-2">•</span>
+                        <span className="text-green-400 font-bold text-xl">200,000+</span> total gameplays
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-green-400 mr-2">•</span>
+                        Published on Y8, Poki & GamePix
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-green-400 mr-2">•</span>
+                        20+ interactive web games created
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 rounded-2xl p-6">
+                    <div className="flex items-center mb-3">
+                      <span className="text-3xl mr-3">🔧</span>
+                      <h4 className="text-xl font-bold text-white">Extension Expert</h4>
+                    </div>
+                    <ul className="space-y-2 text-gray-300">
+                      <li className="flex items-center">
+                        <span className="text-purple-400 mr-2">•</span>
+                        <span className="text-purple-400 font-bold text-xl">4,000+</span> daily active users
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-purple-400 mr-2">•</span>
+                        30+ Firefox browser extensions
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-purple-400 mr-2">•</span>
+                        Solutions for real-world problems
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Core Skills */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
+                  <h4 className="text-xl font-bold text-white mb-4 flex items-center">
+                    <span className="text-3xl mr-3">💻</span>
+                    Core Expertise
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between bg-blue-500/20 rounded-lg p-3">
+                        <span className="text-white font-semibold">Next.js Development</span>
+                        <span className="text-blue-400 font-bold">Expert</span>
+                      </div>
+                      <div className="flex items-center justify-between bg-blue-500/20 rounded-lg p-3">
+                        <span className="text-white font-semibold">React.js Applications</span>
+                        <span className="text-blue-400 font-bold">Expert</span>
+                      </div>
+                      <div className="flex items-center justify-between bg-green-500/20 rounded-lg p-3">
+                        <span className="text-white font-semibold">SEO Optimization</span>
+                        <span className="text-green-400 font-bold">Expert</span>
+                      </div>
+                      <div className="flex items-center justify-between bg-red-500/20 rounded-lg p-3">
+                        <span className="text-white font-semibold">Web Security</span>
+                        <span className="text-red-400 font-bold">Advanced</span>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between bg-yellow-500/20 rounded-lg p-3">
+                        <span className="text-white font-semibold">API Integration</span>
+                        <span className="text-yellow-400 font-bold">Advanced</span>
+                      </div>
+                      <div className="flex items-center justify-between bg-purple-500/20 rounded-lg p-3">
+                        <span className="text-white font-semibold">Game Development</span>
+                        <span className="text-purple-400 font-bold">Expert</span>
+                      </div>
+                      <div className="flex items-center justify-between bg-pink-500/20 rounded-lg p-3">
+                        <span className="text-white font-semibold">Browser Extensions</span>
+                        <span className="text-pink-400 font-bold">Expert</span>
+                      </div>
+                      <div className="flex items-center justify-between bg-cyan-500/20 rounded-lg p-3">
+                        <span className="text-white font-semibold">Responsive Design</span>
+                        <span className="text-cyan-400 font-bold">Expert</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* What I Can Do */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
+                  <h4 className="text-xl font-bold text-white mb-4 flex items-center">
+                    <span className="text-3xl mr-3">🚀</span>
+                    What I Can Build For You
+                  </h4>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    {[
+                      { icon: "🎨", title: "From Sketches", desc: "Convert your ideas to reality" },
+                      { icon: "🎯", title: "Figma Designs", desc: "Pixel-perfect implementations" },
+                      { icon: "🔄", title: "Website Clones", desc: "Recreate any existing site" },
+                      { icon: "🔌", title: "API Integration", desc: "Connect with any service" },
+                      { icon: "📱", title: "CMS Integration", desc: "Sanity, WordPress, etc." },
+                      { icon: "🔥", title: "Firebase Backend", desc: "Real-time applications" },
+                      { icon: "🛒", title: "E-commerce", desc: "WooCommerce, ZohoCommerce" },
+                      { icon: "⚡", title: "Fast Delivery", desc: "6 hours to production" },
+                      { icon: "🔒", title: "Secure Code", desc: "Hack-proof websites" },
+                    ].map((item, index) => (
+                      <div
+                        key={index}
+                        className="text-center p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <div className="text-2xl mb-2">{item.icon}</div>
+                        <h5 className="text-white font-semibold text-sm mb-1">{item.title}</h5>
+                        <p className="text-gray-400 text-xs">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Client Testimonial Quote */}
+                <div className="bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-2xl p-6 text-center">
+                  <div className="text-4xl mb-3">💬</div>
+                  <blockquote className="text-xl font-semibold text-white mb-2">"Perfect!"</blockquote>
+                  <p className="text-gray-300">What every client says after receiving their website</p>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -702,7 +878,7 @@ export default function Portfolio() {
 
           {/* Websites */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-8 text-center">Latest Websites I have built</h3>
+            <h3 className="text-2xl font-bold mb-8 text-center">Websites</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {websites.map((website, index) => (
                 <motion.div
@@ -821,7 +997,7 @@ export default function Portfolio() {
 
           {/* Browser Extensions */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-8 text-center">20+ Open source Browser Extensions</h3>
+            <h3 className="text-2xl font-bold mb-8 text-center">Browser Extensions</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {extensions.map((extension, index) => (
                 <motion.div
@@ -877,14 +1053,14 @@ export default function Portfolio() {
                 className="bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/30"
               >
                 <ExternalLink className="mr-2" size={16} />
-                Visit My Firefox Add-ons
+                Visit Firefox Add-ons
               </Button>
             </div>
           </div>
 
           {/* Software */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold mb-8 text-center">Softwares</h3>
+            <h3 className="text-2xl font-bold mb-8 text-center">Software</h3>
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               {software.map((soft, index) => (
                 <motion.div
@@ -908,7 +1084,7 @@ export default function Portfolio() {
                         className="w-full bg-gray-500/20 hover:bg-gray-500/30 border border-gray-500/30"
                       >
                         <Github className="mr-2" size={16} />
-                        Visit Tool on GitHub
+                        Visit Tool
                       </Button>
                     </CardContent>
                   </Card>
@@ -917,7 +1093,7 @@ export default function Portfolio() {
             </div>
 
             <div className="text-center">
-              <p className="text-lg text-blue-400 font-semibold mb-4">There's so many on GitHub</p>
+              <p className="text-lg text-blue-400 font-semibold mb-4">Follow my work on GitHub</p>
               <Button
                 onClick={() => window.open("https://github.com/r3dhulk", "_blank")}
                 className="bg-gray-500/20 hover:bg-gray-500/30 border border-gray-500/30"
@@ -1014,7 +1190,7 @@ export default function Portfolio() {
                     </div>
                     <ul className="space-y-3">
                       {[
-                        "Website gets delivered in up to 6 hours",
+                        "6 hours for production-ready website",
                         "Unlimited website additions",
                         "Source code included",
                         "Up to 3 revisions done for free",
@@ -1088,7 +1264,7 @@ export default function Portfolio() {
                   icon: "🏆",
                   title: "India's #1 Next.js & React.js Developer",
                   description:
-                    "with proven expertise and exceptional client satisfaction",
+                    "Recognized as India's leading Next.js and React.js developer with proven expertise and exceptional client satisfaction",
                 },
                 {
                   icon: "🚀",
@@ -1129,7 +1305,7 @@ export default function Portfolio() {
                 {
                   icon: "🛠️",
                   title: "Full Stack",
-                  description: "I can use headless CMS like Sanity, Firebase and APIs",
+                  description: "From frontend to backend, APIs to databases - I handle it all",
                 },
               ].map((item, index) => (
                 <motion.div
@@ -1252,7 +1428,7 @@ export default function Portfolio() {
             {/* Write a Review */}
             <Card className="bg-white/10 backdrop-blur-sm border-white/20">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-center text-white">Get Featured in my website</h3>
+                <h3 className="text-2xl font-bold mb-6 text-center text-white">Write a Review</h3>
                 <div className="space-y-4">
                   <Input
                     placeholder="Your Name"
@@ -1318,7 +1494,7 @@ export default function Portfolio() {
                   icon: <Youtube size={24} />,
                   label: "YouTube",
                   value: "Mr Sumalya",
-                  link: "https://youtube.com/@mrsumalya",
+                  link: "https://youtube.com/mrsumalya",
                 },
                 {
                   icon: <Instagram size={24} />,
@@ -1363,6 +1539,9 @@ export default function Portfolio() {
             {/* Brand Section */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">S</span>
+                </div>
                 <h3 className="text-xl font-bold text-white">Sumalya Chatterjee</h3>
               </div>
               <p className="text-gray-300 text-sm leading-relaxed">
@@ -1462,7 +1641,7 @@ export default function Portfolio() {
           <div className="border-t border-white/10 mt-8 pt-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-gray-400 text-sm">
-                © {currentYear} Sumalya Chatterjee. All rights reserved.
+                © {currentYear} Sumalya Chatterjee & Associates. All rights reserved.
               </p>
               <p className="text-gray-400 text-sm">Professional Web Development Services | Next.js Expert | India</p>
             </div>

@@ -1245,85 +1245,107 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Why Me Section */}
+      {/* Enhanced Why Choose Me Section */}
       <section id="why-me" className="py-20">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-6xl mx-auto"
           >
-            <h2 className="text-4xl font-bold mb-12 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold mb-4 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
               Why Choose Me?
             </h2>
 
+            <p className="text-xl text-gray-300 text-center mb-12">
+              Experience the difference with my lightning-fast delivery and premium quality development
+            </p>
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: "🏆",
-                  title: "India's #1 Next.js & React.js Developer",
-                  description:
-                    "Recognized as India's leading Next.js and React.js developer with proven expertise and exceptional client satisfaction",
-                },
-                {
-                  icon: "🚀",
-                  title: "Performance Focused",
-                  description: "Optimized websites with lightning-fast loading speeds and perfect SEO",
-                },
-                {
-                  icon: "🔒",
-                  title: "Security Expert",
-                  description: "Web application security knowledge from PortSwigger ensures hack-proof websites",
-                },
-                {
-                  icon: "🎯",
-                  title: "Client Satisfaction",
-                  description: 'Every client says "Perfect" after receiving their website',
-                },
-                {
-                  icon: "🎮",
-                  title: "Game Development Expert",
-                  description:
-                    "Created 20+ web games with over 200,000+ total gameplays across Y8, Poki, and GamePix platforms",
-                },
-                {
-                  icon: "🔧",
-                  title: "Browser Extension Specialist",
-                  description: "Developed 30+ useful browser extensions with an average of 4,000+ daily active users",
-                },
-                {
-                  icon: "📱",
-                  title: "Responsive Design",
-                  description: "Mobile-first approach ensuring perfect display on all devices",
-                },
-                {
-                  icon: "⚡",
-                  title: "Fast Delivery",
-                  description: "Production-ready websites delivered in just 6 hours",
-                },
-                {
-                  icon: "🛠️",
-                  title: "Full Stack",
-                  description: "From frontend to backend, APIs to databases - I handle it all",
-                },
-              ].map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Card className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 h-full">
-                    <CardContent className="p-6 text-center">
-                      <div className="text-4xl mb-4">{item.icon}</div>
-                      <h3 className="text-xl font-bold mb-4 text-white">{item.title}</h3>
-                      <p className="text-gray-300">{item.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+              {/* Ultra-Fast Delivery */}
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 border-l-4 border-purple-500">
+                <div className="w-12 h-12 mb-4 p-2 bg-blue-500/20 rounded-lg group-hover:bg-blue-500/30 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">Lightning-Fast Delivery</h3>
+                <p className="text-gray-300">
+                  Production-ready websites delivered in under 6 hours without compromising quality.
+                </p>
+              </div>
+
+              {/* Expert Frontend Development */}
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 border-l-4 border-sky-500">
+                <div className="w-12 h-12 mb-4 p-2 bg-red-500/20 rounded-lg group-hover:bg-red-500/30 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                    <path d="M13 2v7h7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">Expert Frontend Development</h3>
+                <p className="text-gray-300">
+                  20+ Nextjs and Reactjs projects, 100+ html projects including 20+ web games and 30+ browser extensions.
+                </p>
+              </div>
+
+              {/* Post-Delivery Care */}
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 border-l-4 border-red-500">
+                <div className="w-12 h-12 mb-4 p-2 bg-green-500/20 rounded-lg group-hover:bg-green-500/30 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">Post-Delivery Care</h3>
+                <p className="text-gray-300">
+                  I not only build reputation in this industry but also build relations. You can connect with me anytime.
+                </p>
+              </div>
+
+              {/* SEO Optimized */}
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 border-l-4 border-purple-500">
+                <div className="w-12 h-12 mb-4 p-2 bg-yellow-500/20 rounded-lg group-hover:bg-yellow-500/30 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">SEO Optimized</h3>
+                <p className="text-gray-300">
+                  Built-in On page SEO optimization for better Google ranking right from launch.
+                </p>
+              </div>
+
+              {/* Premium Quality */}
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 border-l-4 border-blue-500">
+                <div className="w-12 h-12 mb-4 p-2 bg-purple-500/20 rounded-lg group-hover:bg-purple-500/30 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">Premium Quality</h3>
+                <p className="text-gray-300">
+                  Industry-standard websites with enterprise-grade security at less fees with fast delivery.
+                </p>
+              </div>
+
+              {/* Client-Centric Approach */}
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 border-l-4 border-red-500">
+                <div className="w-12 h-12 mb-4 p-2 bg-cyan-500/20 rounded-lg group-hover:bg-cyan-500/30 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-white">Client-Centric Approach</h3>
+                <p className="text-gray-300">
+                  I can draw websites from your imaginations, sketches and screenshots.
+                </p>
+              </div>
+
             </div>
           </motion.div>
         </div>

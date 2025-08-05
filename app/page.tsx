@@ -492,7 +492,7 @@ export default function Portfolio() {
 
   const moreWebsites = [
     { name: "Papyruss", url: "papyruss.netlify.app", image: "/websites/papyruss.png/" },
-    { name: "Codeeditorpro", url: "codeeditor.netlify.app", image: "/websites/codeeditorpro.png" },
+    { name: "Codeeditorpro", url: "codeeditorpro.netlify.app", image: "/websites/codeeditorpro.png" },
     { name: "MSPaint", url: "mspaint.netlify.app", image: "/websites/mspaint.png" },
     { name: "Resume Builder", url: "resume-building-app.netlify.app", image: "/websites/resume.png" },
     { name: "RizzGPT", url: "r1zzgpt.netlify.app", image: "/websites/rizzgpt.png/" },

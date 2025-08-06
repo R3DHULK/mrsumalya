@@ -270,7 +270,7 @@ const HackerTerminal = () => {
             <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
             <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
           </div>
-          <span className="text-green-400 font-bold">SUMALYA_TERMINAL_v2.0</span>
+          <span className="text-green-400 font-bold">SUMALYA_TERMINAL_litev2.0</span>
         </div>
         <div className="text-green-400 text-xs">{new Date().toLocaleTimeString()}</div>
       </div>
@@ -1122,7 +1122,7 @@ export default function Portfolio() {
                       <MessageCircle className="mr-2" size={16} />
                       WhatsApp
                     </Button>
-                    <Button className="bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30">Fiverr</Button>
+                    <Button onClick={() => window.open("https://fiverr.com/mrsumalya/", "_blank")} className="bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30">Fiverr</Button>
                     <Button className="bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/30">
                       PeoplePerHour
                     </Button>

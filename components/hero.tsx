@@ -182,50 +182,50 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="flex flex-row items-center justify-center gap-8 sm:gap-16 mb-12"
+            className="flex flex-row items-center justify-center gap-3 sm:gap-8 lg:gap-16 mb-12 w-full px-4 sm:px-0 overflow-x-auto"
           >
             {/* Games Published */}
-            <div className="text-center">
+            <div className="text-center flex-shrink-0">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.8, type: "spring" }}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary glow-text mb-1 tabular-nums"
+                className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary glow-text mb-1 tabular-nums"
               >
                 {stats ? formatNumber(stats.gamesPublished) : "—"}
               </motion.div>
-              <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Games Published</div>
+              <div className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">Games Published</div>
             </div>
 
-            <div className="w-px h-12 bg-border" />
+            <div className="w-px h-8 sm:h-10 md:h-12 bg-border flex-shrink-0" />
 
             {/* Total Gameplays */}
-            <div className="text-center">
+            <div className="text-center flex-shrink-0">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.9, type: "spring" }}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary glow-text mb-1 tabular-nums"
+                className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary glow-text mb-1 tabular-nums"
               >
                 {stats ? formatNumber(stats.totalGameplays) : "—"}
               </motion.div>
-              <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Total Gameplays</div>
+              <div className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">Total Gameplays</div>
             </div>
 
-            <div className="w-px h-12 bg-border" />
+            <div className="w-px h-8 sm:h-10 md:h-12 bg-border flex-shrink-0" />
 
             {/* Average Rating */}
-            <div className="text-center">
+            <div className="text-center flex-shrink-0">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 1.0, type: "spring" }}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary glow-text mb-1 tabular-nums flex items-center justify-center gap-1"
+                className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary glow-text mb-1 tabular-nums flex items-center justify-center gap-1"
               >
                 {stats?.averageRating != null ? stats.averageRating.toFixed(1) : "—"}
-                <Star className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 fill-primary text-primary" />
+                <Star className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 fill-primary text-primary" />
               </motion.div>
-              <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Avg. Review</div>
+              <div className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">Avg. Review</div>
             </div>
           </motion.div>
 

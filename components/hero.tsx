@@ -1,13 +1,14 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Play, ChevronDown } from "lucide-react"
+import { Play, ChevronDown, Star } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 
 interface Y8Stats {
   gamesPublished: number
   totalGameplays: number
+  averageRating: number | null
 }
 
 function formatNumber(n: number): string {
@@ -25,6 +26,7 @@ export default function Hero() {
           setStats({
             gamesPublished: data.gamesPublished,
             totalGameplays: data.totalGameplays,
+            averageRating: data.averageRating ?? null,
           })
         }
       })
@@ -208,6 +210,22 @@ export default function Hero() {
                 {stats ? formatNumber(stats.totalGameplays) : "—"}
               </motion.div>
               <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Total Gameplays</div>
+            </div>
+
+            <div className="w-px h-12 bg-border" />
+
+            {/* Average Rating */}
+            <div className="text-center">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 1.0, type: "spring" }}
+                className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary glow-text mb-1 tabular-nums flex items-center justify-center gap-1"
+              >
+                {stats?.averageRating != null ? stats.averageRating.toFixed(1) : "—"}
+                <Star className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 fill-primary text-primary" />
+              </motion.div>
+              <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Avg. Review</div>
             </div>
           </motion.div>
 

@@ -22,45 +22,42 @@ export async function GET() {
     const $ = cheerio.load(html)
 
     // --- Stats ---
-    let gamesPublished = 0
     let totalGameplays = 0
 
-    // Counters appear in spans/divs with numeric text near labels
-    $("*").each((_, el) => {
+    // Method 1: Look for the counter element that contains gameplays
+    // The HTML structure is: <span class="counter">272,531</span> near "Total game plays"
+    $(".counter").each((_, el) => {
       const text = $(el).text().trim()
-      const children = $(el).children().length
-
-      // Look for isolated numeric nodes next to label text
-      if (children === 0) {
-        const parent = $(el).parent().text().trim()
-        if (/^[\d,]+$/.test(text)) {
-          const num = parseInt(text.replace(/,/g, ""), 10)
-          if (parent.toLowerCase().includes("game") && parent.toLowerCase().includes("published") && gamesPublished === 0) {
-            gamesPublished = num
-          }
-          if ((parent.toLowerCase().includes("gameplay") || parent.toLowerCase().includes("play")) && totalGameplays === 0 && num > 1000) {
-            totalGameplays = num
-          }
+      const parent = $(el).parent().text().trim().toLowerCase()
+      if (/^[\d,]+$/.test(text)) {
+        const num = parseInt(text.replace(/,/g, ""), 10)
+        if ((parent.includes("gameplay") || parent.includes("play")) && totalGameplays === 0 && num > 1000) {
+          totalGameplays = num
         }
       }
     })
 
-    // Fallback: scan raw text for patterns like "35 Games Published" or "272,156 Gameplays"
-    if (gamesPublished === 0 || totalGameplays === 0) {
-      const rawText = $.text()
-      const publishedMatch = rawText.match(/(\d[\d,]*)\s*(?:Games?\s*Published|Published\s*Games?)/i)
-      const gameplaysMatch = rawText.match(/(\d[\d,]*)\s*(?:Gameplays?|Total\s*Plays?)/i)
-      if (publishedMatch && gamesPublished === 0) {
-        gamesPublished = parseInt(publishedMatch[1].replace(/,/g, ""), 10)
+    // Method 2: Look directly in raw HTML for the exact pattern we know exists
+    // Pattern: Total game plays</span><span class="counter">272,531</span>
+    if (totalGameplays === 0) {
+      const counterMatch = html.match(/Total\s+game\s+plays[^<]*<\/span>\s*<span[^>]*class="counter"[^>]*>\s*([\d,]+)/i)
+      if (counterMatch) {
+        totalGameplays = parseInt(counterMatch[1].replace(/,/g, ""), 10)
       }
-      if (gameplaysMatch && totalGameplays === 0) {
+    }
+
+    // Method 3: Scan raw text for patterns like "272,531" near gameplays
+    if (totalGameplays === 0) {
+      const rawText = $.text()
+      const gameplaysMatch = rawText.match(/(\d[\d,]*)\s*(?:Gameplays?|Total\s*(?:game\s*)?Plays?)/i)
+      if (gameplaysMatch) {
         totalGameplays = parseInt(gameplaysMatch[1].replace(/,/g, ""), 10)
       }
     }
 
     // --- Games ---
     // Only count anchors with full y8.com game URLs (avoids ad banners / relative links)
-    const games: { name: string; slug: string; thumb: string; rating: string; isNew: boolean }[] = []
+    const games: { name: string; slug: string; thumb: string; rating: string; isNew: boolean; reviews?: number }[] = []
     const seen = new Set<string>()
 
     $("a[href]").each((_, el) => {
@@ -83,8 +80,20 @@ export async function GET() {
         img.attr("alt") ||
         slug.replace(/_/g, " ")
 
-      const rating = $(el).find(".item__rating, [class*='rating']").first().text().trim() || ""
-      const isNew = $(el).find("[class*='new'], [class*='badge']").length > 0
+      // Extract rating - look for numeric value like "8.5" in the item__rating span
+      let rating = ""
+      const ratingEl = $(el).find(".item__rating").first()
+      if (ratingEl.length) {
+        const ratingText = ratingEl.text().trim()
+        // Extract just the numeric rating (e.g., "8.5" from potential other text)
+        const ratingMatch = ratingText.match(/^(\d+\.?\d*)$/)
+        if (ratingMatch) {
+          rating = ratingMatch[1]
+        }
+      }
+
+      // Check for "new" badge - Y8 uses item-icon--new class for new games
+      const isNew = $(el).find(".item-icon--new, [class*='icon--new']").length > 0
 
       seen.add(slug)
       games.push({ name, slug, thumb, rating, isNew })
@@ -94,9 +103,27 @@ export async function GET() {
     // authoritative "games published" figure rather than any parsed text node.
     const finalGamesPublished = games.length > 0 ? games.length : 35
 
+    // Calculate average review score from all games that have a rating.
+    // Collect every .item__rating text node that is a plain decimal number (skip CSS blobs).
+    const ratingValues: number[] = []
+    $(".item__rating").each((_, el) => {
+      const text = $(el).text().trim()
+      // Must be a short numeric string like "8.5" or "10.0" — not a CSS blob
+      if (/^\d+(\.\d+)?$/.test(text) && text.length < 6) {
+        ratingValues.push(parseFloat(text))
+      }
+    })
+
+    let averageRating: number | null = null
+    if (ratingValues.length > 0) {
+      const sum = ratingValues.reduce((acc, v) => acc + v, 0)
+      averageRating = Math.round((sum / ratingValues.length) * 10) / 10
+    }
+
     return NextResponse.json({
       gamesPublished: finalGamesPublished,
       totalGameplays,
+      averageRating,
       games,
     })
   } catch (err) {

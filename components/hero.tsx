@@ -3,8 +3,34 @@
 import { motion } from "framer-motion"
 import { Play, ChevronDown } from "lucide-react"
 import Image from "next/image"
+import { useEffect, useState } from "react"
+
+interface Y8Stats {
+  gamesPublished: number
+  totalGameplays: number
+}
+
+function formatNumber(n: number): string {
+  return n.toLocaleString("en-IN")
+}
 
 export default function Hero() {
+  const [stats, setStats] = useState<Y8Stats | null>(null)
+
+  useEffect(() => {
+    fetch("/api/y8")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data.error) {
+          setStats({
+            gamesPublished: data.gamesPublished,
+            totalGameplays: data.totalGameplays,
+          })
+        }
+      })
+      .catch(() => {/* silently fall back to null */})
+  }, [])
+
   return (
     <section
       id="home"
@@ -12,38 +38,22 @@ export default function Hero() {
     >
       {/* 3D Background Elements */}
       <div className="absolute inset-0 perspective-container">
-        {/* 3D Floating Orbs */}
         <motion.div
           className="absolute top-1/4 left-[10%] w-64 h-64 orb-3d"
-          animate={{
-            rotateX: [0, 360],
-            rotateY: [0, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
+          animate={{ rotateX: [0, 360], rotateY: [0, 360] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         >
           <div className="w-full h-full rounded-full bg-gradient-to-br from-primary/30 via-accent/20 to-transparent blur-3xl" />
         </motion.div>
-        
+
         <motion.div
           className="absolute bottom-1/4 right-[10%] w-80 h-80 orb-3d"
-          animate={{
-            rotateX: [360, 0],
-            rotateY: [360, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear",
-          }}
+          animate={{ rotateX: [360, 0], rotateY: [360, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         >
           <div className="w-full h-full rounded-full bg-gradient-to-tl from-accent/25 via-primary/15 to-transparent blur-3xl" />
         </motion.div>
 
-        {/* 3D Rotating Rings */}
         <div className="absolute top-1/3 right-[15%] w-48 h-48">
           <motion.div
             className="w-full h-full border-2 border-primary/20 rounded-full"
@@ -52,7 +62,7 @@ export default function Hero() {
             style={{ transformStyle: "preserve-3d" }}
           />
         </div>
-        
+
         <div className="absolute bottom-1/3 left-[15%] w-32 h-32">
           <motion.div
             className="w-full h-full border-2 border-accent/20 rounded-full"
@@ -62,19 +72,10 @@ export default function Hero() {
           />
         </div>
 
-        {/* 3D Floating Cubes */}
         <motion.div
           className="absolute top-[20%] right-[25%] w-16 h-16"
-          animate={{
-            rotateX: [0, 360],
-            rotateY: [0, 360],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          animate={{ rotateX: [0, 360], rotateY: [0, 360], y: [0, -30, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           style={{ transformStyle: "preserve-3d" }}
         >
           <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/10 rounded-lg backdrop-blur-sm border border-primary/10" />
@@ -82,16 +83,8 @@ export default function Hero() {
 
         <motion.div
           className="absolute bottom-[25%] left-[20%] w-12 h-12"
-          animate={{
-            rotateX: [360, 0],
-            rotateY: [360, 0],
-            y: [0, 20, 0],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          animate={{ rotateX: [360, 0], rotateY: [360, 0], y: [0, 20, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           style={{ transformStyle: "preserve-3d" }}
         >
           <div className="w-full h-full bg-gradient-to-br from-accent/20 to-primary/10 rounded-lg backdrop-blur-sm border border-accent/10" />
@@ -100,7 +93,7 @@ export default function Hero() {
 
       {/* Animated Background Grid */}
       <div className="absolute inset-0 grid-pattern opacity-30" />
-      
+
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(30)].map((_, i) => (
@@ -108,19 +101,19 @@ export default function Hero() {
             key={i}
             className="absolute w-1 h-1 bg-primary/40 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${(i * 37 + 13) % 100}%`,
+              top: `${(i * 53 + 7) % 100}%`,
             }}
             animate={{
               y: [0, -200],
-              x: [0, Math.random() * 50 - 25],
+              x: [0, ((i % 5) - 2) * 15],
               opacity: [0, 1, 0],
               scale: [0, 1.5, 0],
             }}
             transition={{
-              duration: Math.random() * 4 + 4,
+              duration: (i % 4) + 4,
               repeat: Infinity,
-              delay: Math.random() * 4,
+              delay: (i % 4),
               ease: "easeOut",
             }}
           />
@@ -130,6 +123,7 @@ export default function Hero() {
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex flex-col items-center text-center">
+
           {/* Profile Image */}
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
@@ -177,7 +171,7 @@ export default function Hero() {
             transition={{ delay: 0.5 }}
             className="max-w-2xl text-muted-foreground text-base md:text-lg mb-10 leading-relaxed text-pretty"
           >
-            Hi, I am Sumalya Chatterjee, a small town boy with lots of game ideas. Thanks to Y8 Games 
+            Hi, I am Sumalya Chatterjee, a small town boy with lots of game ideas. Thanks to Y8 Games
             to give my solo games a platform. Hope you all love my games.
           </motion.p>
 
@@ -188,26 +182,30 @@ export default function Hero() {
             transition={{ delay: 0.6 }}
             className="flex flex-row items-center justify-center gap-8 sm:gap-16 mb-12"
           >
+            {/* Games Published */}
             <div className="text-center">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.8, type: "spring" }}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary glow-text mb-1"
+                className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary glow-text mb-1 tabular-nums"
               >
-                35
+                {stats ? formatNumber(stats.gamesPublished) : "—"}
               </motion.div>
               <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Games Published</div>
             </div>
+
             <div className="w-px h-12 bg-border" />
+
+            {/* Total Gameplays */}
             <div className="text-center">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.9, type: "spring" }}
-                className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary glow-text mb-1"
+                className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary glow-text mb-1 tabular-nums"
               >
-                272,156
+                {stats ? formatNumber(stats.totalGameplays) : "—"}
               </motion.div>
               <div className="text-xs sm:text-sm md:text-base text-muted-foreground">Total Gameplays</div>
             </div>
@@ -230,7 +228,7 @@ export default function Hero() {
               Explore Games
             </motion.a>
             <motion.a
-              href="#contact"
+              href="mailto:namastesumalya@gmail.com"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 border border-primary/50 text-foreground rounded-lg font-semibold hover:bg-primary/10 transition-colors flex items-center justify-center"

@@ -1,10 +1,20 @@
 "use client"
 
-import { motion, useInView } from "framer-motion"
-import { useRef, useState } from "react"
+import { motion } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
 import { ExternalLink, Star, Search, ChevronDown, ChevronUp } from "lucide-react"
 
-const games = [
+interface Game {
+  name: string
+  slug: string
+  thumb: string
+  rating: string
+  isNew: boolean
+}
+
+// Reliable fallback list scraped from y8.com/studios/sumalya
+// Used only when the live fetch fails
+const FALLBACK_GAMES: Game[] = [
   { name: "Whack a Mole Arena", rating: "8.1", slug: "whack_a_mole_arena", thumb: "https://cdn2.y8.com/cloudimage/401901/file/w180h135_webp-45657ce96e7dc85e51e86b3794588018.webp", isNew: true },
   { name: "Play Square Up with Friends", rating: "8.1", slug: "play_square_up_with_friends", thumb: "https://cdn2.y8.com/cloudimage/401781/file/w180h135_webp-c196d242a81eb005617e8739e88a0300.webp", isNew: true },
   { name: "Play Memory Match with Friends", rating: "8.2", slug: "play_memory_match_with_friends", thumb: "https://cdn2.y8.com/cloudimage/401605/file/w180h135_webp-11414f4bf908bd69d8370cd6e1bec7a2.webp", isNew: true },
@@ -44,26 +54,33 @@ const games = [
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.03 },
-  },
+  visible: { opacity: 1, transition: { staggerChildren: 0.03 } },
 }
 
 const itemVariants = {
   hidden: { opacity: 0, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.3 },
-  },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
 }
 
 export default function Games() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
   const [searchQuery, setSearchQuery] = useState("")
   const [visibleCount, setVisibleCount] = useState(10)
+  const [games, setGames] = useState<Game[]>(FALLBACK_GAMES)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch("/api/y8")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data.error && Array.isArray(data.games) && data.games.length > 0) {
+          setGames(data.games)
+        }
+        // if live fetch returned no usable games, fallback stays
+      })
+      .catch(() => {/* keep fallback */})
+      .finally(() => setLoading(false))
+  }, [])
 
   const filteredGames = games.filter((game) =>
     game.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -73,17 +90,12 @@ export default function Games() {
   const hasMore = visibleCount < filteredGames.length
   const canCollapse = visibleCount > 10
 
-  const handleViewMore = () => {
-    setVisibleCount((prev) => Math.min(prev + 10, filteredGames.length))
-  }
-
-  const handleViewLess = () => {
-    setVisibleCount(10)
-  }
+  const handleViewMore = () => setVisibleCount((prev) => Math.min(prev + 10, filteredGames.length))
+  const handleViewLess = () => setVisibleCount(10)
 
   return (
     <section id="games" className="py-20 md:py-32 relative overflow-hidden">
-      {/* 3D Background Elements */}
+      {/* 3D Background */}
       <div className="absolute inset-0 perspective-container">
         <div className="absolute top-20 left-10 w-32 h-32 orb-3d">
           <div className="w-full h-full rounded-full bg-gradient-to-br from-primary/20 to-accent/10 blur-xl" />
@@ -91,14 +103,11 @@ export default function Games() {
         <div className="absolute bottom-40 right-20 w-48 h-48 orb-3d" style={{ animationDelay: "-3s" }}>
           <div className="w-full h-full rounded-full bg-gradient-to-br from-accent/15 to-primary/10 blur-2xl" />
         </div>
-        <div className="absolute top-1/3 right-10 w-40 h-40 ring-3d opacity-30">
-          <div className="w-full h-full border-4 border-primary/30 rounded-full" />
-        </div>
         <div className="absolute inset-0 grid-pattern opacity-15" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -111,96 +120,109 @@ export default function Games() {
             Featured <span className="text-primary glow-text">Games</span>
           </h2>
           <p className="max-w-2xl mx-auto text-muted-foreground mb-8 text-pretty">
-            Explore my collection of 35 browser-based games, enjoyed by over 272,156 players worldwide.
+            Explore my collection of browser-based games enjoyed by players worldwide.
             Each game is crafted with love and designed for maximum fun.
           </p>
 
-          {/* Search Bar */}
+          {/* Search */}
           <div className="max-w-md mx-auto relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search games..."
               value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value)
-                setVisibleCount(10)
-              }}
+              onChange={(e) => { setSearchQuery(e.target.value); setVisibleCount(10) }}
               className="w-full pl-12 pr-4 py-3 bg-secondary/50 border border-border rounded-lg focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all text-foreground placeholder:text-muted-foreground"
             />
           </div>
         </motion.div>
 
+        {/* Loading skeleton */}
+        {loading && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-12">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="rounded-xl overflow-hidden border border-border animate-pulse">
+                <div className="bg-secondary" style={{ aspectRatio: "4/3" }} />
+                <div className="p-3">
+                  <div className="h-3 bg-secondary rounded w-3/4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Games Grid */}
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
-        >
-          {displayedGames.map((game) => (
-            <motion.a
-              key={game.slug}
-              href={`https://www.y8.com/games/${game.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              variants={itemVariants}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className="group relative bg-card rounded-xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
-            >
-              {/* Game Thumbnail */}
-              <div className="relative overflow-hidden bg-secondary" style={{ aspectRatio: "4/3" }}>
-                <img
-                  src={game.thumb}
-                  alt={game.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  loading="lazy"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement
-                    target.src = `/placeholder.svg?height=135&width=180`
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        {!loading && (
+          <motion.div
+            ref={ref}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+          >
+            {displayedGames.map((game) => (
+              <motion.a
+                key={game.slug}
+                href={`https://www.y8.com/games/${game.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                variants={itemVariants}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="group relative bg-card rounded-xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
+              >
+                {/* Thumbnail */}
+                <div className="relative overflow-hidden bg-secondary" style={{ aspectRatio: "4/3" }}>
+                  <img
+                    src={game.thumb}
+                    alt={game.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
+                    onError={(e) => {
+                      const t = e.target as HTMLImageElement
+                      t.src = `/placeholder.svg?height=135&width=180`
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                {/* New Badge */}
-                {game.isNew && (
-                  <div className="absolute top-2 left-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs font-semibold rounded">
-                    NEW
+                  {game.isNew && (
+                    <div className="absolute top-2 left-2 px-2 py-0.5 bg-primary text-primary-foreground text-xs font-semibold rounded">
+                      NEW
+                    </div>
+                  )}
+
+                  {game.rating && (
+                    <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 bg-background/80 backdrop-blur-sm rounded text-xs font-medium">
+                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                      {game.rating}
+                    </div>
+                  )}
+
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center glow">
+                      <ExternalLink className="w-5 h-5 text-primary-foreground" />
+                    </div>
                   </div>
-                )}
-
-                {/* Rating Badge */}
-                <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 bg-background/80 backdrop-blur-sm rounded text-xs font-medium">
-                  <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                  {game.rating}
                 </div>
 
-                {/* Play Icon on Hover */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center glow">
-                    <ExternalLink className="w-5 h-5 text-primary-foreground" />
-                  </div>
+                {/* Info */}
+                <div className="p-3">
+                  <h3 className="text-sm font-medium truncate group-hover:text-primary transition-colors">
+                    {game.name}
+                  </h3>
                 </div>
-              </div>
+              </motion.a>
+            ))}
+          </motion.div>
+        )}
 
-              {/* Game Info */}
-              <div className="p-3">
-                <h3 className="text-sm font-medium truncate group-hover:text-primary transition-colors">
-                  {game.name}
-                </h3>
-              </div>
-            </motion.a>
-          ))}
-        </motion.div>
-
-        {/* View More / View Less Buttons */}
-        {(hasMore || canCollapse) && (
+        {/* View More / Less */}
+        {!loading && (hasMore || canCollapse) && (
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-center mt-12 flex justify-center gap-4"
+            className="text-center mt-12 flex justify-center gap-4 flex-wrap"
           >
             {hasMore && (
               <motion.button
@@ -227,13 +249,9 @@ export default function Games() {
           </motion.div>
         )}
 
-        {/* No Results */}
-        {filteredGames.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12"
-          >
+        {/* No results */}
+        {!loading && filteredGames.length === 0 && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
             <p className="text-muted-foreground">No games found matching &quot;{searchQuery}&quot;</p>
           </motion.div>
         )}
